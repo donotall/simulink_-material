@@ -1,0 +1,513 @@
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : 123
+ Source Server Type    : MySQL
+ Source Server Version : 80016
+ Source Host           : localhost:3306
+ Source Schema         : simulink
+
+ Target Server Type    : MySQL
+ Target Server Version : 80016
+ File Encoding         : 65001
+
+ Date: 17/06/2021 10:10:14
+*/
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for acl_permission
+-- ----------------------------
+DROP TABLE IF EXISTS `acl_permission`;
+CREATE TABLE `acl_permission`  (
+  `id` char(19) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '编号',
+  `pid` char(19) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '所属上级',
+  `name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '名称',
+  `type` tinyint(3) NOT NULL DEFAULT 0 COMMENT '类型(1:菜单,2:按钮)',
+  `permission_value` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '权限值',
+  `path` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '访问路径',
+  `component` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '组件路径',
+  `icon` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '图标',
+  `status` tinyint(4) NULL DEFAULT NULL COMMENT '状态(0:禁止,1:正常)',
+  `is_deleted` tinyint(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
+  `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `idx_pid`(`pid`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '权限' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of acl_permission
+-- ----------------------------
+INSERT INTO `acl_permission` VALUES ('1', '0', '全部数据', 0, NULL, NULL, NULL, NULL, NULL, 0, '2019-11-15 17:13:06', '2019-11-15 17:13:06');
+INSERT INTO `acl_permission` VALUES ('1195268474480156673', '1', '权限管理', 1, NULL, '/acl', 'Layout', NULL, NULL, 0, '2019-11-15 17:13:06', '2019-11-18 13:54:25');
+INSERT INTO `acl_permission` VALUES ('1195268616021139457', '1195268474480156673', '用户管理', 1, NULL, 'user/list', '/acl/user/list', NULL, NULL, 0, '2019-11-15 17:13:40', '2019-11-18 13:53:12');
+INSERT INTO `acl_permission` VALUES ('1195268788138598401', '1195268474480156673', '角色管理', 1, NULL, 'role/list', '/acl/role/list', NULL, NULL, 0, '2019-11-15 17:14:21', '2019-11-15 17:14:21');
+INSERT INTO `acl_permission` VALUES ('1195268893830864898', '1195268474480156673', '菜单管理', 1, NULL, 'menu/list', '/acl/menu/list', NULL, NULL, 0, '2019-11-15 17:14:46', '2019-11-15 17:14:46');
+INSERT INTO `acl_permission` VALUES ('1195269143060602882', '1195268616021139457', '查看', 2, 'user.list', '', '', NULL, NULL, 0, '2019-11-15 17:15:45', '2019-11-17 21:57:16');
+INSERT INTO `acl_permission` VALUES ('1195269295926206466', '1195268616021139457', '添加', 2, 'user.add', 'user/add', '/acl/user/form', NULL, NULL, 0, '2019-11-15 17:16:22', '2019-11-15 17:16:22');
+INSERT INTO `acl_permission` VALUES ('1195269473479483394', '1195268616021139457', '修改', 2, 'user.update', 'user/update/:id', '/acl/user/form', NULL, NULL, 0, '2019-11-15 17:17:04', '2019-11-15 17:17:04');
+INSERT INTO `acl_permission` VALUES ('1195269547269873666', '1195268616021139457', '删除', 2, 'user.remove', '', '', NULL, NULL, 0, '2019-11-15 17:17:22', '2019-11-15 17:17:22');
+INSERT INTO `acl_permission` VALUES ('1195269821262782465', '1195268788138598401', '修改', 2, 'role.update', 'role/update/:id', '/acl/role/form', NULL, NULL, 0, '2019-11-15 17:18:27', '2019-11-15 17:19:53');
+INSERT INTO `acl_permission` VALUES ('1195269903542444034', '1195268788138598401', '查看', 2, 'role.list', '', '', NULL, NULL, 0, '2019-11-15 17:18:47', '2019-11-15 17:18:47');
+INSERT INTO `acl_permission` VALUES ('1195270037005197313', '1195268788138598401', '添加', 2, 'role.add', 'role/add', '/acl/role/form', NULL, NULL, 0, '2019-11-15 17:19:19', '2019-11-18 11:05:42');
+INSERT INTO `acl_permission` VALUES ('1195270442602782721', '1195268788138598401', '删除', 2, 'role.remove', '', '', NULL, NULL, 0, '2019-11-15 17:20:55', '2019-11-15 17:20:55');
+INSERT INTO `acl_permission` VALUES ('1195270621548568578', '1195268788138598401', '角色权限', 2, 'role.acl', 'role/distribution/:id', '/acl/role/roleForm', NULL, NULL, 0, '2019-11-15 17:21:38', '2019-11-15 17:21:38');
+INSERT INTO `acl_permission` VALUES ('1195270744097742849', '1195268893830864898', '查看', 2, 'permission.list', '', '', NULL, NULL, 0, '2019-11-15 17:22:07', '2019-11-15 17:22:07');
+INSERT INTO `acl_permission` VALUES ('1195270810560684034', '1195268893830864898', '添加', 2, 'permission.add', '', '', NULL, NULL, 0, '2019-11-15 17:22:23', '2019-11-15 17:22:23');
+INSERT INTO `acl_permission` VALUES ('1195270862100291586', '1195268893830864898', '修改', 2, 'permission.update', '', '', NULL, NULL, 0, '2019-11-15 17:22:35', '2019-11-15 17:22:35');
+INSERT INTO `acl_permission` VALUES ('1195270887933009922', '1195268893830864898', '删除', 2, 'permission.remove', '', '', NULL, NULL, 0, '2019-11-15 17:22:41', '2019-11-15 17:22:41');
+INSERT INTO `acl_permission` VALUES ('1195349439240048642', '1', '班课管理', 1, NULL, '/edu/course', 'Layout', NULL, NULL, 0, '2019-11-15 22:34:49', '2021-03-31 14:20:46');
+INSERT INTO `acl_permission` VALUES ('1195349699995734017', '1195349439240048642', '班课列表', 1, NULL, 'list', '/edu/course/list', NULL, NULL, 0, '2019-11-15 22:35:52', '2021-03-31 14:21:19');
+INSERT INTO `acl_permission` VALUES ('1195349810561781761', '1195349439240048642', '添加班课', 1, NULL, 'save', '/edu/course/save', NULL, NULL, 0, '2019-11-15 22:36:18', '2021-03-31 15:54:38');
+INSERT INTO `acl_permission` VALUES ('1195349876252971010', '1195351020463296513', '添加', 2, 'experiment.add', '', '', NULL, NULL, 0, '2019-11-15 22:36:34', '2021-04-09 15:25:24');
+INSERT INTO `acl_permission` VALUES ('1195349979797753857', '1195349699995734017', '查看', 2, 'course.list', '', '', NULL, NULL, 0, '2019-11-15 22:36:58', '2021-03-31 14:22:46');
+INSERT INTO `acl_permission` VALUES ('1195350117270261762', '1195349699995734017', '修改', 2, 'course.update', 'edit/:id', '/edu/course/save', NULL, NULL, 0, '2019-11-15 22:37:31', '2021-03-31 15:55:25');
+INSERT INTO `acl_permission` VALUES ('1195350188359520258', '1195349699995734017', '删除', 2, 'course.remove', '', '', NULL, NULL, 0, '2019-11-15 22:37:48', '2021-03-31 14:22:15');
+INSERT INTO `acl_permission` VALUES ('1195350831744782337', '1', '实验管理', 1, NULL, '/edu/experiment', 'Layout', NULL, NULL, 0, '2019-11-15 22:40:21', '2021-03-31 12:00:55');
+INSERT INTO `acl_permission` VALUES ('1195350919074385921', '1195350831744782337', '实验列表', 1, NULL, 'list', '/edu/experiment/list', NULL, NULL, 0, '2019-11-15 22:40:42', '2021-03-31 11:56:44');
+INSERT INTO `acl_permission` VALUES ('1195351020463296513', '1195350831744782337', '添加实验', 1, NULL, 'save', '/edu/experiment/save', NULL, NULL, 0, '2019-11-15 22:41:06', '2021-04-09 15:24:50');
+INSERT INTO `acl_permission` VALUES ('1195351159672246274', '1195350919074385921', '查看', 2, 'experiment.list', '', '', NULL, NULL, 0, '2019-11-15 22:41:40', '2021-04-09 15:27:03');
+INSERT INTO `acl_permission` VALUES ('1195351326706208770', '1195350919074385921', '删除实验', 2, 'experiment.remove', '', '', NULL, NULL, 0, '2019-11-15 22:42:19', '2021-04-09 15:27:39');
+INSERT INTO `acl_permission` VALUES ('1195351566221938690', '1195350919074385921', '修改实验', 2, 'chapter.update', 'edit/:id', '/edu/experiment/save', NULL, NULL, 0, '2019-11-15 22:43:17', '2021-04-09 15:26:26');
+INSERT INTO `acl_permission` VALUES ('1196301740985311234', '1195268616021139457', '分配角色', 2, 'user.assgin', 'user/role/:id', '/acl/user/roleForm', NULL, NULL, 0, '2019-11-18 13:38:56', '2019-11-18 13:38:56');
+INSERT INTO `acl_permission` VALUES ('1380432104831119362', '1195350919074385921', '班课中的实验', 2, 'experiment.exlist', 'list/:id', '/edu/experiment/list', NULL, NULL, 0, '2021-04-09 16:07:16', '2021-04-09 16:12:33');
+INSERT INTO `acl_permission` VALUES ('1380460130646159361', '1', '学生管理', 1, NULL, '/edu/user', 'Layout', NULL, NULL, 0, '2021-04-09 17:58:38', '2021-05-02 15:04:34');
+INSERT INTO `acl_permission` VALUES ('1380460790166908930', '1380460130646159361', '学生列表', 1, NULL, 'list', '/edu/user/list', NULL, NULL, 0, '2021-04-09 18:01:15', '2021-05-02 15:04:25');
+INSERT INTO `acl_permission` VALUES ('1388751048809746433', '1380460790166908930', '班课中的学生', 2, 'user.list', 'courseuser/:id', '/edu/user/courseuer', NULL, NULL, 0, '2021-05-02 15:03:46', '2021-05-02 15:04:15');
+INSERT INTO `acl_permission` VALUES ('1388754141765013505', '1195350919074385921', '实验详情', 2, 'experiment.detail', 'detail/:id', '/edu/experiment/detail', NULL, NULL, 0, '2021-05-02 15:16:04', '2021-05-02 15:19:32');
+INSERT INTO `acl_permission` VALUES ('1388766360351379458', '1', '评分管理', 1, NULL, '/edu/score', 'Layout', NULL, NULL, 0, '2021-05-02 16:04:37', '2021-05-02 16:06:05');
+INSERT INTO `acl_permission` VALUES ('1388766842088165378', '1388766360351379458', '评分管理', 1, NULL, 'list', '/edu/score/index', NULL, NULL, 0, '2021-05-02 16:06:32', '2021-05-02 16:06:32');
+INSERT INTO `acl_permission` VALUES ('1388766986812624898', '1388766842088165378', '查看评分结果', 2, 'score.list', '', '', NULL, NULL, 0, '2021-05-02 16:07:06', '2021-05-02 16:07:06');
+INSERT INTO `acl_permission` VALUES ('1388767429991174146', '1388766842088165378', '实验的评分', 2, 'score.listbyex', 'score/:id', '/edu/score/score', NULL, NULL, 0, '2021-05-02 16:08:52', '2021-05-02 16:11:03');
+INSERT INTO `acl_permission` VALUES ('1389878312259653634', '1', '地址管理', 1, NULL, '/edu/xpcAttr', 'Layout', NULL, NULL, 0, '2021-05-05 17:43:07', '2021-05-05 17:43:07');
+INSERT INTO `acl_permission` VALUES ('1389878584587423746', '1389878312259653634', '地址列表', 1, NULL, 'list', '/edu/xpcAttr/list', NULL, NULL, 0, '2021-05-05 17:44:12', '2021-05-05 17:44:12');
+INSERT INTO `acl_permission` VALUES ('1389878723989311490', '1389878584587423746', '查看地址', 2, 'xpcAttr.list', '', '', NULL, NULL, 0, '2021-05-05 17:44:45', '2021-05-05 17:44:45');
+INSERT INTO `acl_permission` VALUES ('1389878855774343170', '1389878312259653634', '添加地址', 1, NULL, 'save', '/edu/xpcAttr/save', NULL, NULL, 0, '2021-05-05 17:45:17', '2021-05-05 17:45:17');
+INSERT INTO `acl_permission` VALUES ('1389879149182685185', '1389878584587423746', '修改地址', 2, 'xpcAttr.update', 'edit/:id', '/edu/xpcAttr/save', NULL, NULL, 0, '2021-05-05 17:46:27', '2021-05-05 17:46:27');
+INSERT INTO `acl_permission` VALUES ('1389879361691291650', '1389878584587423746', '搜索', 2, 'xpcAttr.search', '', '', NULL, NULL, 0, '2021-05-05 17:47:17', '2021-05-05 17:47:17');
+INSERT INTO `acl_permission` VALUES ('1389879481891655682', '1389878584587423746', '批量添加', 2, 'xpcAttr.saveBatch', '', '', NULL, NULL, 0, '2021-05-05 17:47:46', '2021-05-05 17:47:46');
+INSERT INTO `acl_permission` VALUES ('1389879567371571201', '1389878584587423746', '删除地址', 2, 'xpcAttr.remove', '', '', NULL, NULL, 0, '2021-05-05 17:48:06', '2021-05-05 17:48:06');
+INSERT INTO `acl_permission` VALUES ('1392288414258286593', '1195349810561781761', '添加', 2, 'course.add', '', '', NULL, NULL, 0, '2021-05-12 09:20:00', '2021-05-12 09:20:00');
+INSERT INTO `acl_permission` VALUES ('1392288582248550402', '1389878855774343170', '添加', 2, 'xpcattr.add', '', '', NULL, NULL, 0, '2021-05-12 09:20:40', '2021-05-12 09:20:40');
+
+-- ----------------------------
+-- Table structure for acl_role
+-- ----------------------------
+DROP TABLE IF EXISTS `acl_role`;
+CREATE TABLE `acl_role`  (
+  `id` char(19) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '角色id',
+  `role_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '角色名称',
+  `role_code` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '角色编码',
+  `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `is_deleted` tinyint(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
+  `gmt_create` datetime(0) NOT NULL COMMENT '创建时间',
+  `gmt_modified` datetime(0) NOT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of acl_role
+-- ----------------------------
+INSERT INTO `acl_role` VALUES ('1', '普通管理员', NULL, NULL, 0, '2019-11-11 13:09:32', '2019-11-18 10:27:18');
+INSERT INTO `acl_role` VALUES ('1193757683205607426', '老师管理员', NULL, NULL, 0, '2019-11-11 13:09:45', '2019-11-18 10:25:44');
+INSERT INTO `acl_role` VALUES ('1196300996034977794', 'test', NULL, NULL, 0, '2019-11-18 13:35:58', '2019-11-18 13:35:58');
+INSERT INTO `acl_role` VALUES ('1377102667507060738', '老师', NULL, NULL, 0, '2021-03-31 11:37:16', '2021-03-31 11:37:24');
+INSERT INTO `acl_role` VALUES ('1392289898739912706', '地址管理员', NULL, NULL, 0, '2021-05-12 09:25:54', '2021-05-12 09:26:49');
+
+-- ----------------------------
+-- Table structure for acl_role_permission
+-- ----------------------------
+DROP TABLE IF EXISTS `acl_role_permission`;
+CREATE TABLE `acl_role_permission`  (
+  `id` char(19) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `role_id` char(19) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `permission_id` char(19) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `is_deleted` tinyint(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
+  `gmt_create` datetime(0) NOT NULL COMMENT '创建时间',
+  `gmt_modified` datetime(0) NOT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `idx_role_id`(`role_id`) USING BTREE,
+  INDEX `idx_permission_id`(`permission_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色权限' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of acl_role_permission
+-- ----------------------------
+INSERT INTO `acl_role_permission` VALUES ('1365150990197616641', '1196300996034977794', '1195268788138598401', 0, '2021-02-26 12:05:34', '2021-02-26 12:05:34');
+INSERT INTO `acl_role_permission` VALUES ('1365150990197616642', '1196300996034977794', '1195269821262782465', 0, '2021-02-26 12:05:34', '2021-02-26 12:05:34');
+INSERT INTO `acl_role_permission` VALUES ('1365150990214393858', '1196300996034977794', '1195269903542444034', 0, '2021-02-26 12:05:34', '2021-02-26 12:05:34');
+INSERT INTO `acl_role_permission` VALUES ('1365150990214393859', '1196300996034977794', '1195270037005197313', 0, '2021-02-26 12:05:34', '2021-02-26 12:05:34');
+INSERT INTO `acl_role_permission` VALUES ('1365150990214393860', '1196300996034977794', '1195270442602782721', 0, '2021-02-26 12:05:34', '2021-02-26 12:05:34');
+INSERT INTO `acl_role_permission` VALUES ('1365150990214393861', '1196300996034977794', '1195270621548568578', 0, '2021-02-26 12:05:34', '2021-02-26 12:05:34');
+INSERT INTO `acl_role_permission` VALUES ('1377152919387787265', '1', '1', 0, '2021-03-31 14:56:57', '2021-03-31 14:56:57');
+INSERT INTO `acl_role_permission` VALUES ('1377152919404564481', '1', '1195268474480156673', 0, '2021-03-31 14:56:57', '2021-03-31 14:56:57');
+INSERT INTO `acl_role_permission` VALUES ('1377152919404564482', '1', '1195268616021139457', 0, '2021-03-31 14:56:57', '2021-03-31 14:56:57');
+INSERT INTO `acl_role_permission` VALUES ('1377152919404564483', '1', '1195269143060602882', 0, '2021-03-31 14:56:57', '2021-03-31 14:56:57');
+INSERT INTO `acl_role_permission` VALUES ('1377152919404564484', '1', '1195269295926206466', 0, '2021-03-31 14:56:57', '2021-03-31 14:56:57');
+INSERT INTO `acl_role_permission` VALUES ('1377152919404564485', '1', '1195269473479483394', 0, '2021-03-31 14:56:57', '2021-03-31 14:56:57');
+INSERT INTO `acl_role_permission` VALUES ('1377152919404564486', '1', '1195269547269873666', 0, '2021-03-31 14:56:57', '2021-03-31 14:56:57');
+INSERT INTO `acl_role_permission` VALUES ('1377152919404564487', '1', '1196301740985311234', 0, '2021-03-31 14:56:57', '2021-03-31 14:56:57');
+INSERT INTO `acl_role_permission` VALUES ('1377152919417147393', '1', '1195268788138598401', 0, '2021-03-31 14:56:57', '2021-03-31 14:56:57');
+INSERT INTO `acl_role_permission` VALUES ('1377152919417147394', '1', '1195269821262782465', 0, '2021-03-31 14:56:57', '2021-03-31 14:56:57');
+INSERT INTO `acl_role_permission` VALUES ('1377152919417147395', '1', '1195269903542444034', 0, '2021-03-31 14:56:57', '2021-03-31 14:56:57');
+INSERT INTO `acl_role_permission` VALUES ('1377152919417147396', '1', '1195270037005197313', 0, '2021-03-31 14:56:57', '2021-03-31 14:56:57');
+INSERT INTO `acl_role_permission` VALUES ('1377152919417147397', '1', '1195270442602782721', 0, '2021-03-31 14:56:57', '2021-03-31 14:56:57');
+INSERT INTO `acl_role_permission` VALUES ('1377152919417147398', '1', '1195270621548568578', 0, '2021-03-31 14:56:57', '2021-03-31 14:56:57');
+INSERT INTO `acl_role_permission` VALUES ('1377152919417147399', '1', '1195268893830864898', 0, '2021-03-31 14:56:57', '2021-03-31 14:56:57');
+INSERT INTO `acl_role_permission` VALUES ('1377152919417147400', '1', '1195270744097742849', 0, '2021-03-31 14:56:57', '2021-03-31 14:56:57');
+INSERT INTO `acl_role_permission` VALUES ('1377152919417147401', '1', '1195270810560684034', 0, '2021-03-31 14:56:57', '2021-03-31 14:56:57');
+INSERT INTO `acl_role_permission` VALUES ('1377152919417147402', '1', '1195270862100291586', 0, '2021-03-31 14:56:57', '2021-03-31 14:56:57');
+INSERT INTO `acl_role_permission` VALUES ('1377152919417147403', '1', '1195270887933009922', 0, '2021-03-31 14:56:57', '2021-03-31 14:56:57');
+INSERT INTO `acl_role_permission` VALUES ('1377152919417147404', '1', '1195349439240048642', 0, '2021-03-31 14:56:57', '2021-03-31 14:56:57');
+INSERT INTO `acl_role_permission` VALUES ('1377152919429730305', '1', '1195349699995734017', 0, '2021-03-31 14:56:57', '2021-03-31 14:56:57');
+INSERT INTO `acl_role_permission` VALUES ('1377152919429730306', '1', '1195349979797753857', 0, '2021-03-31 14:56:57', '2021-03-31 14:56:57');
+INSERT INTO `acl_role_permission` VALUES ('1377152919429730307', '1', '1195350117270261762', 0, '2021-03-31 14:56:57', '2021-03-31 14:56:57');
+INSERT INTO `acl_role_permission` VALUES ('1377152919429730308', '1', '1195350188359520258', 0, '2021-03-31 14:56:57', '2021-03-31 14:56:57');
+INSERT INTO `acl_role_permission` VALUES ('1377152919429730309', '1', '1195349810561781761', 0, '2021-03-31 14:56:57', '2021-03-31 14:56:57');
+INSERT INTO `acl_role_permission` VALUES ('1377152919429730310', '1', '1195349876252971010', 0, '2021-03-31 14:56:57', '2021-03-31 14:56:57');
+INSERT INTO `acl_role_permission` VALUES ('1377152919446507521', '1', '1195350831744782337', 0, '2021-03-31 14:56:57', '2021-03-31 14:56:57');
+INSERT INTO `acl_role_permission` VALUES ('1377152919446507522', '1', '1195350919074385921', 0, '2021-03-31 14:56:57', '2021-03-31 14:56:57');
+INSERT INTO `acl_role_permission` VALUES ('1377152919446507523', '1', '1195351159672246274', 0, '2021-03-31 14:56:57', '2021-03-31 14:56:57');
+INSERT INTO `acl_role_permission` VALUES ('1377152919446507524', '1', '1195351326706208770', 0, '2021-03-31 14:56:57', '2021-03-31 14:56:57');
+INSERT INTO `acl_role_permission` VALUES ('1377152919446507525', '1', '1195351566221938690', 0, '2021-03-31 14:56:57', '2021-03-31 14:56:57');
+INSERT INTO `acl_role_permission` VALUES ('1377152927373742081', '1', '1195351020463296513', 0, '2021-03-31 14:56:59', '2021-03-31 14:56:59');
+INSERT INTO `acl_role_permission` VALUES ('1377152927386324993', '1', '1195351862889254913', 0, '2021-03-31 14:56:59', '2021-03-31 14:56:59');
+INSERT INTO `acl_role_permission` VALUES ('1377152927386324994', '1', '1195351968841568257', 0, '2021-03-31 14:56:59', '2021-03-31 14:56:59');
+INSERT INTO `acl_role_permission` VALUES ('1377152927386324995', '1', '1195352215768633346', 0, '2021-03-31 14:56:59', '2021-03-31 14:56:59');
+INSERT INTO `acl_role_permission` VALUES ('1377152927386324996', '1', '1195352054917074946', 0, '2021-03-31 14:56:59', '2021-03-31 14:56:59');
+INSERT INTO `acl_role_permission` VALUES ('1392289653205356546', '1377102667507060738', '1', 0, '2021-05-12 09:24:55', '2021-05-12 09:24:55');
+INSERT INTO `acl_role_permission` VALUES ('1392289653238910977', '1377102667507060738', '1195349439240048642', 0, '2021-05-12 09:24:55', '2021-05-12 09:24:55');
+INSERT INTO `acl_role_permission` VALUES ('1392289653238910978', '1377102667507060738', '1195349699995734017', 0, '2021-05-12 09:24:55', '2021-05-12 09:24:55');
+INSERT INTO `acl_role_permission` VALUES ('1392289653238910979', '1377102667507060738', '1195349979797753857', 0, '2021-05-12 09:24:55', '2021-05-12 09:24:55');
+INSERT INTO `acl_role_permission` VALUES ('1392289653238910980', '1377102667507060738', '1195350117270261762', 0, '2021-05-12 09:24:55', '2021-05-12 09:24:55');
+INSERT INTO `acl_role_permission` VALUES ('1392289653255688193', '1377102667507060738', '1195350188359520258', 0, '2021-05-12 09:24:55', '2021-05-12 09:24:55');
+INSERT INTO `acl_role_permission` VALUES ('1392289653255688194', '1377102667507060738', '1195349810561781761', 0, '2021-05-12 09:24:55', '2021-05-12 09:24:55');
+INSERT INTO `acl_role_permission` VALUES ('1392289653255688195', '1377102667507060738', '1392288414258286593', 0, '2021-05-12 09:24:55', '2021-05-12 09:24:55');
+INSERT INTO `acl_role_permission` VALUES ('1392289653255688196', '1377102667507060738', '1195350831744782337', 0, '2021-05-12 09:24:55', '2021-05-12 09:24:55');
+INSERT INTO `acl_role_permission` VALUES ('1392289653255688197', '1377102667507060738', '1195350919074385921', 0, '2021-05-12 09:24:55', '2021-05-12 09:24:55');
+INSERT INTO `acl_role_permission` VALUES ('1392289653255688198', '1377102667507060738', '1195351159672246274', 0, '2021-05-12 09:24:55', '2021-05-12 09:24:55');
+INSERT INTO `acl_role_permission` VALUES ('1392289653255688199', '1377102667507060738', '1195351326706208770', 0, '2021-05-12 09:24:55', '2021-05-12 09:24:55');
+INSERT INTO `acl_role_permission` VALUES ('1392289653255688200', '1377102667507060738', '1195351566221938690', 0, '2021-05-12 09:24:55', '2021-05-12 09:24:55');
+INSERT INTO `acl_role_permission` VALUES ('1392289653255688201', '1377102667507060738', '1380432104831119362', 0, '2021-05-12 09:24:55', '2021-05-12 09:24:55');
+INSERT INTO `acl_role_permission` VALUES ('1392289653318602753', '1377102667507060738', '1388754141765013505', 0, '2021-05-12 09:24:56', '2021-05-12 09:24:56');
+INSERT INTO `acl_role_permission` VALUES ('1392289653318602754', '1377102667507060738', '1195351020463296513', 0, '2021-05-12 09:24:56', '2021-05-12 09:24:56');
+INSERT INTO `acl_role_permission` VALUES ('1392289653318602755', '1377102667507060738', '1195349876252971010', 0, '2021-05-12 09:24:56', '2021-05-12 09:24:56');
+INSERT INTO `acl_role_permission` VALUES ('1392289653318602756', '1377102667507060738', '1380460130646159361', 0, '2021-05-12 09:24:56', '2021-05-12 09:24:56');
+INSERT INTO `acl_role_permission` VALUES ('1392289653335379969', '1377102667507060738', '1380460790166908930', 0, '2021-05-12 09:24:56', '2021-05-12 09:24:56');
+INSERT INTO `acl_role_permission` VALUES ('1392289653335379970', '1377102667507060738', '1388751048809746433', 0, '2021-05-12 09:24:56', '2021-05-12 09:24:56');
+INSERT INTO `acl_role_permission` VALUES ('1392289653335379971', '1377102667507060738', '1388766360351379458', 0, '2021-05-12 09:24:56', '2021-05-12 09:24:56');
+INSERT INTO `acl_role_permission` VALUES ('1392289653352157186', '1377102667507060738', '1388766842088165378', 0, '2021-05-12 09:24:56', '2021-05-12 09:24:56');
+INSERT INTO `acl_role_permission` VALUES ('1392289653352157187', '1377102667507060738', '1388766986812624898', 0, '2021-05-12 09:24:56', '2021-05-12 09:24:56');
+INSERT INTO `acl_role_permission` VALUES ('1392289653352157188', '1377102667507060738', '1388767429991174146', 0, '2021-05-12 09:24:56', '2021-05-12 09:24:56');
+INSERT INTO `acl_role_permission` VALUES ('1392289803831201794', '1193757683205607426', '1', 0, '2021-05-12 09:25:31', '2021-05-12 09:25:31');
+INSERT INTO `acl_role_permission` VALUES ('1392289803847979010', '1193757683205607426', '1195268474480156673', 0, '2021-05-12 09:25:31', '2021-05-12 09:25:31');
+INSERT INTO `acl_role_permission` VALUES ('1392289803847979011', '1193757683205607426', '1195268616021139457', 0, '2021-05-12 09:25:31', '2021-05-12 09:25:31');
+INSERT INTO `acl_role_permission` VALUES ('1392289803864756225', '1193757683205607426', '1195269143060602882', 0, '2021-05-12 09:25:31', '2021-05-12 09:25:31');
+INSERT INTO `acl_role_permission` VALUES ('1392289803864756226', '1193757683205607426', '1195269295926206466', 0, '2021-05-12 09:25:31', '2021-05-12 09:25:31');
+INSERT INTO `acl_role_permission` VALUES ('1392289803877339138', '1193757683205607426', '1195269473479483394', 0, '2021-05-12 09:25:31', '2021-05-12 09:25:31');
+INSERT INTO `acl_role_permission` VALUES ('1392289803877339139', '1193757683205607426', '1195269547269873666', 0, '2021-05-12 09:25:31', '2021-05-12 09:25:31');
+INSERT INTO `acl_role_permission` VALUES ('1392289803877339140', '1193757683205607426', '1196301740985311234', 0, '2021-05-12 09:25:31', '2021-05-12 09:25:31');
+INSERT INTO `acl_role_permission` VALUES ('1392290162804903937', '1392289898739912706', '1', 0, '2021-05-12 09:26:57', '2021-05-12 09:26:57');
+INSERT INTO `acl_role_permission` VALUES ('1392290162804903938', '1392289898739912706', '1389878312259653634', 0, '2021-05-12 09:26:57', '2021-05-12 09:26:57');
+INSERT INTO `acl_role_permission` VALUES ('1392290162804903939', '1392289898739912706', '1389878584587423746', 0, '2021-05-12 09:26:57', '2021-05-12 09:26:57');
+INSERT INTO `acl_role_permission` VALUES ('1392290162804903940', '1392289898739912706', '1389878723989311490', 0, '2021-05-12 09:26:57', '2021-05-12 09:26:57');
+INSERT INTO `acl_role_permission` VALUES ('1392290162804903941', '1392289898739912706', '1389879149182685185', 0, '2021-05-12 09:26:57', '2021-05-12 09:26:57');
+INSERT INTO `acl_role_permission` VALUES ('1392290162804903942', '1392289898739912706', '1389879361691291650', 0, '2021-05-12 09:26:57', '2021-05-12 09:26:57');
+INSERT INTO `acl_role_permission` VALUES ('1392290162804903943', '1392289898739912706', '1389879481891655682', 0, '2021-05-12 09:26:57', '2021-05-12 09:26:57');
+INSERT INTO `acl_role_permission` VALUES ('1392290162804903944', '1392289898739912706', '1389879567371571201', 0, '2021-05-12 09:26:57', '2021-05-12 09:26:57');
+INSERT INTO `acl_role_permission` VALUES ('1392290162804903945', '1392289898739912706', '1389878855774343170', 0, '2021-05-12 09:26:57', '2021-05-12 09:26:57');
+INSERT INTO `acl_role_permission` VALUES ('1392290162804903946', '1392289898739912706', '1392288582248550402', 0, '2021-05-12 09:26:57', '2021-05-12 09:26:57');
+
+-- ----------------------------
+-- Table structure for acl_user
+-- ----------------------------
+DROP TABLE IF EXISTS `acl_user`;
+CREATE TABLE `acl_user`  (
+  `id` char(19) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '会员id',
+  `username` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '微信openid',
+  `password` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '密码',
+  `nick_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '昵称',
+  `salt` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户头像',
+  `token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户签名',
+  `is_deleted` tinyint(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
+  `gmt_create` datetime(0) NOT NULL COMMENT '创建时间',
+  `gmt_modified` datetime(0) NOT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `uk_username`(`username`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of acl_user
+-- ----------------------------
+INSERT INTO `acl_user` VALUES ('1', 'admin', '96e79218965eb72c92a549dd5a330112', 'admin123', '', NULL, 0, '2019-11-01 10:39:47', '2019-11-01 10:39:47');
+INSERT INTO `acl_user` VALUES ('1365147273041842178', '123', '96e79218965eb72c92a549dd5a330112', '123', NULL, NULL, 0, '2021-02-26 11:50:48', '2021-02-26 11:50:48');
+INSERT INTO `acl_user` VALUES ('1377102977835225089', '12345', 'e10adc3949ba59abbe56e057f20f883e', '12312', NULL, NULL, 0, '2021-03-31 11:38:30', '2021-03-31 11:38:30');
+INSERT INTO `acl_user` VALUES ('1377145329131999233', '123456', 'e10adc3949ba59abbe56e057f20f883e', '123', NULL, NULL, 0, '2021-03-31 14:26:47', '2021-03-31 14:26:47');
+INSERT INTO `acl_user` VALUES ('1377153220140355585', 'hj', '96e79218965eb72c92a549dd5a330112', 'hj', NULL, NULL, 0, '2021-03-31 14:58:09', '2021-03-31 14:58:09');
+INSERT INTO `acl_user` VALUES ('2', 'test', '96e79218965eb72c92a549dd5a330112', 'test', NULL, NULL, 0, '2019-11-01 16:36:07', '2019-11-01 16:40:08');
+
+-- ----------------------------
+-- Table structure for acl_user_role
+-- ----------------------------
+DROP TABLE IF EXISTS `acl_user_role`;
+CREATE TABLE `acl_user_role`  (
+  `id` char(19) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '主键id',
+  `role_id` char(19) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0' COMMENT '角色id',
+  `user_id` char(19) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0' COMMENT '用户id',
+  `is_deleted` tinyint(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
+  `gmt_create` datetime(0) NOT NULL COMMENT '创建时间',
+  `gmt_modified` datetime(0) NOT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `idx_role_id`(`role_id`) USING BTREE,
+  INDEX `idx_user_id`(`user_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of acl_user_role
+-- ----------------------------
+INSERT INTO `acl_user_role` VALUES ('1377145150689529857', '1', '2', 0, '2021-03-31 14:26:05', '2021-03-31 14:26:05');
+INSERT INTO `acl_user_role` VALUES ('1377145193890861057', '1377102667507060738', '1377102977835225089', 0, '2021-03-31 14:26:15', '2021-03-31 14:26:15');
+INSERT INTO `acl_user_role` VALUES ('1377145368772366338', '1377102667507060738', '1377145329131999233', 0, '2021-03-31 14:26:57', '2021-03-31 14:26:57');
+INSERT INTO `acl_user_role` VALUES ('1392287772076789761', '1377102667507060738', '1377153220140355585', 0, '2021-05-12 09:17:27', '2021-05-12 09:17:27');
+
+-- ----------------------------
+-- Table structure for edu_course
+-- ----------------------------
+DROP TABLE IF EXISTS `edu_course`;
+CREATE TABLE `edu_course`  (
+  `id` char(19) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '实验班课id',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '实验班课名字',
+  `number` int(11) NOT NULL COMMENT '实验班课人数',
+  `reality_number` int(11) NOT NULL COMMENT '实验班课实际人数',
+  `user_create` char(19) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '创建实验班课的用户id',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '课程描述',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
+  `gmt_create` datetime(0) NOT NULL COMMENT '创建时间',
+  `gmt_modified` datetime(0) NOT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of edu_course
+-- ----------------------------
+INSERT INTO `edu_course` VALUES ('1377149195932188674', '21', 5, 4, 'hj', '123123', 0, '2021-03-31 14:42:09', '2021-05-11 21:04:36');
+INSERT INTO `edu_course` VALUES ('1377153864016351234', '1234', 4, 3, 'hj', '12345', 0, '2021-03-31 15:00:42', '2021-05-11 21:05:15');
+INSERT INTO `edu_course` VALUES ('1377157959703941121', '122', 4, 2, 'admin123', '2233', 0, '2021-03-31 15:16:59', '2021-05-11 21:05:18');
+INSERT INTO `edu_course` VALUES ('1377166156305031169', '2131', 4, 0, 'hj', '12312', 0, '2021-03-31 15:49:33', '2021-03-31 15:49:33');
+INSERT INTO `edu_course` VALUES ('1377168967696715778', '12312', 30, 1, 'hj', '12321', 0, '2021-03-31 16:00:43', '2021-04-21 16:16:58');
+INSERT INTO `edu_course` VALUES ('1377169604488470530', '12312', 4, 0, 'admin', '1231', 0, '2021-03-31 16:03:15', '2021-03-31 16:03:15');
+INSERT INTO `edu_course` VALUES ('1377177712988332034', '1231', 3, 1, 'hj', '12312', 0, '2021-03-31 16:35:28', '2021-04-29 19:31:28');
+INSERT INTO `edu_course` VALUES ('1377177988759625730', '12312', 5, 0, 'admin123', '1231', 0, '2021-03-31 16:36:34', '2021-03-31 16:36:34');
+
+-- ----------------------------
+-- Table structure for edu_experiment
+-- ----------------------------
+DROP TABLE IF EXISTS `edu_experiment`;
+CREATE TABLE `edu_experiment`  (
+  `id` char(19) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '实验id',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `course_id` char(19) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '实验内容',
+  `video_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '实验学习视频',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
+  `gmt_create` datetime(0) NOT NULL COMMENT '创建时间',
+  `gmt_end` datetime(0) NOT NULL COMMENT '结束时间',
+  `gmt_modified` datetime(0) NOT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of edu_experiment
+-- ----------------------------
+INSERT INTO `edu_experiment` VALUES ('1378322977375916034', '12312', '1377166156305031169', '<p>13123</p>', NULL, 0, '2021-04-03 20:26:20', '2021-04-29 00:00:00', '2021-04-09 17:47:56');
+INSERT INTO `edu_experiment` VALUES ('1380436950858657793', '12312', '1377149195932188674', '<p>123123</p>', NULL, 0, '2021-04-09 16:26:31', '2021-04-29 00:00:00', '2021-04-09 16:26:31');
+INSERT INTO `edu_experiment` VALUES ('1380445644178649089', '1235467', '1377166156305031169', '<p>34567tyrgr</p>', NULL, 0, '2021-04-09 17:01:04', '2021-04-30 00:00:00', '2021-04-09 17:48:04');
+INSERT INTO `edu_experiment` VALUES ('1380447017112760322', '21321', '1377153864016351234', '<p>124234</p>', NULL, 0, '2021-04-09 17:06:31', '2021-04-30 00:00:00', '2021-04-09 17:06:31');
+INSERT INTO `edu_experiment` VALUES ('1388406495351205890', '啦啦啦啦啦', '1377149195932188674', '<p>2243rwer</p>', NULL, 0, '2021-05-01 16:14:38', '2021-05-01 16:14:28', '2021-05-01 17:41:56');
+INSERT INTO `edu_experiment` VALUES ('1388424659711557634', '1111', '1377168967696715778', '<p>11111</p>', NULL, 0, '2021-05-01 17:26:49', '2021-05-12 00:00:00', '2021-05-01 17:26:49');
+INSERT INTO `edu_experiment` VALUES ('1388442540096733185', '123123', '1377149195932188674', '<p>12312312</p>', NULL, 0, '2021-05-01 18:37:52', '2021-05-28 00:00:00', '2021-05-01 21:17:05');
+INSERT INTO `edu_experiment` VALUES ('1392290989086961665', '12345679', '1377153864016351234', '<p>123456789【】</p>', NULL, 0, '2021-05-12 09:30:14', '2021-05-31 00:00:00', '2021-05-12 09:32:25');
+INSERT INTO `edu_experiment` VALUES ('1398881636300419073', '1234567321234567', '1377149195932188674', '<p>qwertewesdfggdfdsg</p>', NULL, 0, '2021-05-30 13:59:07', '2021-06-30 00:00:00', '2021-05-30 13:59:07');
+INSERT INTO `edu_experiment` VALUES ('1398962809051553793', 'test', '1377149195932188674', '<p>test</p>', NULL, 0, '2021-05-30 19:21:40', '2021-06-24 00:00:00', '2021-05-30 19:35:24');
+
+-- ----------------------------
+-- Table structure for file
+-- ----------------------------
+DROP TABLE IF EXISTS `file`;
+CREATE TABLE `file`  (
+  `id` char(19) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `file_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '文件名',
+  `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '文件地址',
+  `experiment_id` char(19) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '实验id',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
+  `gmt_create` datetime(0) NOT NULL COMMENT '创建时间',
+  `gmt_modified` datetime(0) NOT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of file
+-- ----------------------------
+INSERT INTO `file` VALUES ('1388442540222562305', '1.png', 'https://simulink-experiment.oss-cn-hangzhou.aliyuncs.com/teacher/b366485d9b3d486d9e564fae05b14d84/1.png', '1388442540096733185', 0, '2021-05-01 18:37:52', '2021-05-01 18:37:52');
+INSERT INTO `file` VALUES ('1392291536649154561', '1.pdf', 'https://simulink-experiment.oss-cn-hangzhou.aliyuncs.com/teacher/52bef744de424d279757328aa71af5fc/1.pdf', '1392290989086961665', 0, '2021-05-12 09:32:25', '2021-05-12 09:32:25');
+INSERT INTO `file` VALUES ('1398881636430442498', 'redis.txt', 'https://simulink-experiment.oss-cn-hangzhou.aliyuncs.com/teacher/8c3fd707089c49e48ec5d0b5ed8e83a7/redis.txt', '1398881636300419073', 0, '2021-05-30 13:59:07', '2021-05-30 13:59:07');
+
+-- ----------------------------
+-- Table structure for img
+-- ----------------------------
+DROP TABLE IF EXISTS `img`;
+CREATE TABLE `img`  (
+  `id` char(19) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `user_id` char(19) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户id',
+  `experiment_id` char(19) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '实验id',
+  `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '图片地址',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
+  `gmt_create` datetime(0) NOT NULL COMMENT '创建时间',
+  `gmt_modified` datetime(0) NOT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of img
+-- ----------------------------
+INSERT INTO `img` VALUES ('1386278414834483202', '1', '1380436950858657793', 'https://simulink-experiment.oss-cn-hangzhou.aliyuncs.com/student/1/1380436950858657793/373d1049de014fcc883acb958d41a2a6.png', 0, '2021-04-25 19:18:25', '2021-04-25 19:18:57');
+INSERT INTO `img` VALUES ('1386278415128084481', '1', '1380436950858657793', 'https://simulink-experiment.oss-cn-hangzhou.aliyuncs.com/student/1/1380436950858657793/e11cdc25ce4a47f797bf082422eda17e.png', 0, '2021-04-25 19:18:25', '2021-04-25 19:18:25');
+INSERT INTO `img` VALUES ('1386278415128084482', '1', '1380436950858657793', 'https://simulink-experiment.oss-cn-hangzhou.aliyuncs.com/student/1/1380436950858657793/159090c0bc6744d093499b39ca52d800.png', 0, '2021-04-25 19:18:25', '2021-04-25 19:18:25');
+INSERT INTO `img` VALUES ('1386278415144861698', '1', '1380436950858657793', 'https://simulink-experiment.oss-cn-hangzhou.aliyuncs.com/student/1/1380436950858657793/7f621daa5ba6424c9f8f8b5404e488c4.png', 0, '2021-04-25 19:18:25', '2021-04-25 19:18:25');
+INSERT INTO `img` VALUES ('1386284556662882306', '1', '1380436950858657793', 'https://simulink-experiment.oss-cn-hangzhou.aliyuncs.com/student/1/1380436950858657793/592126dac9be4d51ba3a633ec523dc1b.png', 0, '2021-04-25 19:42:49', '2021-04-25 19:42:49');
+INSERT INTO `img` VALUES ('1389452838207307777', '1', '1388442540096733185', 'https://simulink-experiment.oss-cn-hangzhou.aliyuncs.com/student/1/1388442540096733185/040abcf7f8424f54aa696553fd88c5ed.png', 0, '2021-05-04 13:32:26', '2021-05-04 13:32:26');
+INSERT INTO `img` VALUES ('1389452838207307778', '1', '1388442540096733185', 'https://simulink-experiment.oss-cn-hangzhou.aliyuncs.com/student/1/1388442540096733185/6de04a98ef3c4061854e7ff6d29a98a8.png', 0, '2021-05-04 13:32:26', '2021-05-04 13:32:26');
+INSERT INTO `img` VALUES ('1389452970197860353', '1', '1388442540096733185', 'https://simulink-experiment.oss-cn-hangzhou.aliyuncs.com/student/1/1388442540096733185/4c7470bf9c3a4a6f88ecfcebd5575ba2.png', 0, '2021-05-04 13:32:58', '2021-05-04 13:32:58');
+INSERT INTO `img` VALUES ('1398890960779276290', '1', '1398881636300419073', 'https://simulink-experiment.oss-cn-hangzhou.aliyuncs.com/student/1/1398881636300419073/0da8d03015ff4be0b76e7a904cef50de.png', 0, '2021-05-30 14:36:10', '2021-05-30 14:36:10');
+INSERT INTO `img` VALUES ('1398890960796053505', '1', '1398881636300419073', 'https://simulink-experiment.oss-cn-hangzhou.aliyuncs.com/student/1/1398881636300419073/021c1ae0d93a491d8cc47e433088b30d.png', 0, '2021-05-30 14:36:10', '2021-05-30 14:36:10');
+INSERT INTO `img` VALUES ('1398965913713123330', '1', '1398962809051553793', 'https://simulink-experiment.oss-cn-hangzhou.aliyuncs.com/student/1/1398962809051553793/e61d59a672eb4990975b8930b7f4a1ef.png', 0, '2021-05-30 19:34:00', '2021-05-30 19:34:00');
+INSERT INTO `img` VALUES ('1398965913713123331', '1', '1398962809051553793', 'https://simulink-experiment.oss-cn-hangzhou.aliyuncs.com/student/1/1398962809051553793/5c4bc62f1ca24f10ae12de48547c8987.png', 0, '2021-05-30 19:34:00', '2021-05-30 19:34:00');
+
+-- ----------------------------
+-- Table structure for student_score
+-- ----------------------------
+DROP TABLE IF EXISTS `student_score`;
+CREATE TABLE `student_score`  (
+  `id` char(19) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `user_id` char(19) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户id',
+  `experiment_id` char(19) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '实验id',
+  `score` int(3) NOT NULL COMMENT '实验得分',
+  `finished` tinyint(1) NOT NULL COMMENT '完成情况 1完成，0未完成',
+  `is_score` tinyint(1) NOT NULL COMMENT '老师是否评分',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
+  `gmt_create` datetime(0) NOT NULL COMMENT '创建时间',
+  `gmt_modified` datetime(0) NOT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of student_score
+-- ----------------------------
+INSERT INTO `student_score` VALUES ('1386284568864112641', '1', '1380436950858657793', 80, 1, 1, 0, '2021-04-25 19:42:52', '2021-05-03 15:07:45');
+INSERT INTO `student_score` VALUES ('1398890984745529346', '1', '1398881636300419073', 80, 1, 1, 0, '2021-05-30 14:36:16', '2021-05-30 14:52:30');
+INSERT INTO `student_score` VALUES ('1398965931073347585', '1', '1398962809051553793', 80, 1, 1, 0, '2021-05-30 19:34:04', '2021-05-30 19:36:06');
+
+-- ----------------------------
+-- Table structure for ucenter_member
+-- ----------------------------
+DROP TABLE IF EXISTS `ucenter_member`;
+CREATE TABLE `ucenter_member`  (
+  `id` char(19) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '会员id',
+  `openid` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '微信openid',
+  `mobile` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '手机号',
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '密码',
+  `nickname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '昵称',
+  `sex` tinyint(2) UNSIGNED NULL DEFAULT NULL COMMENT '性别 1 女，2 男',
+  `age` tinyint(3) UNSIGNED NULL DEFAULT NULL COMMENT '年龄',
+  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户头像',
+  `sign` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户签名',
+  `is_disabled` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否禁用 1（true）已禁用，  0（false）未禁用',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
+  `gmt_create` datetime(0) NOT NULL COMMENT '创建时间',
+  `gmt_modified` datetime(0) NOT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '会员表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of ucenter_member
+-- ----------------------------
+INSERT INTO `ucenter_member` VALUES ('1', NULL, '13700000001', '96e79218965eb72c92a549dd5a330112', '小三123', 1, 9, 'http://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoj0hHXhgJNOTSOFsS4uZs8x1ConecaVOB8eIl115xmJZcT4oCicvia7wMEufibKtTLqiaJeanU2Lpg3w/132', NULL, 0, 0, '2019-01-01 12:11:33', '2021-04-29 19:30:07');
+INSERT INTO `ucenter_member` VALUES ('1080736474267144193', NULL, '13700000011', '96e79218965eb72c92a549dd5a330112', '用户XJtDfaYeKk', 1, 19, 'http://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoj0hHXhgJNOTSOFsS4uZs8x1ConecaVOB8eIl115xmJZcT4oCicvia7wMEufibKtTLqiaJeanU2Lpg3w/132', NULL, 0, 0, '2019-01-02 12:12:45', '2021-05-11 21:17:58');
+INSERT INTO `ucenter_member` VALUES ('1080736474355224577', NULL, '13700000002', '96e79218965eb72c92a549dd5a330112', '用户wUrNkzAPrc', 1, 27, 'http://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoj0hHXhgJNOTSOFsS4uZs8x1ConecaVOB8eIl115xmJZcT4oCicvia7wMEufibKtTLqiaJeanU2Lpg3w/132', NULL, 0, 0, '2019-01-02 12:13:56', '2019-01-02 12:14:07');
+INSERT INTO `ucenter_member` VALUES ('1086387099449442306', NULL, '13520191388', '96e79218965eb72c92a549dd5a330112', '用户XTMUeHDAoj', 2, 20, 'http://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoj0hHXhgJNOTSOFsS4uZs8x1ConecaVOB8eIl115xmJZcT4oCicvia7wMEufibKtTLqiaJeanU2Lpg3w/132', NULL, 0, 0, '2019-01-19 06:17:23', '2019-01-19 06:17:23');
+INSERT INTO `ucenter_member` VALUES ('1086387099520745473', NULL, '13520191389', '96e79218965eb72c92a549dd5a330112', '用户vSdKeDlimn', 1, 21, 'http://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoj0hHXhgJNOTSOFsS4uZs8x1ConecaVOB8eIl115xmJZcT4oCicvia7wMEufibKtTLqiaJeanU2Lpg3w/132', NULL, 0, 0, '2019-01-19 06:17:23', '2019-01-19 06:17:23');
+INSERT INTO `ucenter_member` VALUES ('1086387099608825858', NULL, '13520191381', '96e79218965eb72c92a549dd5a330112', '用户EoyWUVXQoP', 1, 18, 'http://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoj0hHXhgJNOTSOFsS4uZs8x1ConecaVOB8eIl115xmJZcT4oCicvia7wMEufibKtTLqiaJeanU2Lpg3w/132', NULL, 0, 0, '2019-01-19 06:17:23', '2019-01-19 06:17:23');
+INSERT INTO `ucenter_member` VALUES ('1086387099701100545', NULL, '13520191382', '96e79218965eb72c92a549dd5a330112', '用户LcAYbxLNdN', 2, 24, 'http://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoj0hHXhgJNOTSOFsS4uZs8x1ConecaVOB8eIl115xmJZcT4oCicvia7wMEufibKtTLqiaJeanU2Lpg3w/132', NULL, 0, 0, '2019-01-19 06:17:23', '2019-01-19 06:17:23');
+INSERT INTO `ucenter_member` VALUES ('1086387099776598018', NULL, '13520191383', '96e79218965eb72c92a549dd5a330112', '用户dZdjcgltnk', 2, 25, 'http://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoj0hHXhgJNOTSOFsS4uZs8x1ConecaVOB8eIl115xmJZcT4oCicvia7wMEufibKtTLqiaJeanU2Lpg3w/132', NULL, 0, 0, '2019-01-19 06:17:23', '2019-01-19 06:17:23');
+INSERT INTO `ucenter_member` VALUES ('1086387099852095490', NULL, '13520191384', '96e79218965eb72c92a549dd5a330112', '用户wNHGHlxUwX', 2, 23, 'http://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoj0hHXhgJNOTSOFsS4uZs8x1ConecaVOB8eIl115xmJZcT4oCicvia7wMEufibKtTLqiaJeanU2Lpg3w/132', NULL, 0, 0, '2019-01-19 06:17:23', '2019-01-19 06:17:23');
+INSERT INTO `ucenter_member` VALUES ('1106746895272849410', 'o1R-t5u2TfEVeVjO9CPGdHPNw-to', NULL, NULL, '檀梵\'', NULL, NULL, 'http://thirdwx.qlogo.cn/mmopen/vi_32/zZfLXcetf2Rpsibq6HbPUWKgWSJHtha9y1XBeaqluPUs6BYicW1FJaVqj7U3ozHd3iaodGKJOvY2PvqYTuCKwpyfQ/132', NULL, 0, 0, '2019-03-16 10:39:57', '2019-03-16 10:39:57');
+INSERT INTO `ucenter_member` VALUES ('1106823035660357634', 'o1R-t5i4gENwHYRb5lVFy98Z0bdk', NULL, NULL, 'GaoSir', NULL, NULL, 'http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJI53RcCuc1no02os6ZrattWGiazlPnicoZQ59zkS7phNdLEWUPDk8fzoxibAnXV1Sbx0trqXEsGhXPw/132', NULL, 0, 0, '2019-03-16 15:42:30', '2019-03-16 15:42:30');
+INSERT INTO `ucenter_member` VALUES ('1106823115788341250', 'o1R-t5l_3rnbZbn4jWwFdy6Gk6cg', NULL, NULL, '换个网名哇、', NULL, NULL, 'http://thirdwx.qlogo.cn/mmopen/vi_32/jJHyeM0EN2jhB70LntI3k8fEKe7W6CwykrKMgDJM4VZqCpcxibVibX397p0vmbKURGkLS4jxjGB0GpZfxCicgt07w/132', NULL, 0, 0, '2019-03-16 15:42:49', '2019-03-16 15:42:49');
+INSERT INTO `ucenter_member` VALUES ('1106826046730227714', 'o1R-t5gyxumyBqt0CWcnh0S6Ya1g', NULL, NULL, '我是Helen', NULL, NULL, 'http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKDRfib8wy7A2ltERKh4VygxdjVC1x5OaOb1t9hot4JNt5agwaVLdJLcD9vJCNcxkvQnlvLYIPfrZw/132', NULL, 0, 0, '2019-03-16 15:54:28', '2019-03-16 15:54:28');
+INSERT INTO `ucenter_member` VALUES ('1106828185829490690', 'o1R-t5nNlou5lRwBVgGNJFm4rbc4', NULL, NULL, ' 虎头', NULL, NULL, 'http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKxCqRzuYWQmpwiaqQEjNxbC7WicebicXQusU306jgmfoOzUcFg1qaDq5BStiblwBjw5dUOblQ2gUicQOQ/132', NULL, 0, 0, '2019-03-16 16:02:58', '2019-03-16 16:02:58');
+INSERT INTO `ucenter_member` VALUES ('1106830599651442689', 'o1R-t5hZHQB1cbX7HZJsiM727_SA', NULL, NULL, '是吴啊', NULL, NULL, 'http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJ9CsqApybcs7f3Dyib9IxIh0sBqJb7LicbjU4WticJFF0PVwFvHgtbFdBwfmk3H2t3NyqmEmVx17tRA/132', NULL, 0, 0, '2019-03-16 16:12:34', '2019-03-16 16:12:34');
+INSERT INTO `ucenter_member` VALUES ('1106830976199278593', 'o1R-t5meKOoyEJ3-IhWRCBKFcvzU', NULL, NULL, '我才是Helen', NULL, NULL, 'http://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83epMicP9UT6mVjYWdno0OJZkOXiajG0sllJTbGJ9DYiceej2XvbDSGCK8LCF7jv1PuG2uoYlePWic9XO8A/132', NULL, 0, 0, '2019-03-16 16:14:03', '2019-03-16 16:14:03');
+INSERT INTO `ucenter_member` VALUES ('1106831936900415490', 'o1R-t5jXYSWakGtnUBnKbfVT5Iok', NULL, NULL, '文若姬', NULL, NULL, 'http://thirdwx.qlogo.cn/mmopen/vi_32/3HEmJwpSzguqqAyzmBwqT6aicIanswZibEOicQInQJI3ZY1qmu59icJC6N7SahKqWYv24GvX5KH2fibwt0mPWcTJ3fg/132', NULL, 0, 0, '2019-03-16 16:17:52', '2019-03-16 16:17:52');
+INSERT INTO `ucenter_member` VALUES ('1106832491064442882', 'o1R-t5sud081Qsa2Vb2xSKgGnf_g', NULL, NULL, 'Peanut', NULL, NULL, 'http://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoj0hHXhgJNOTSOFsS4uZs8x1ConecaVOB8eIl115xmJZcT4oCicvia7wMEufibKtTLqiaJeanU2Lpg3w/132', NULL, 0, 0, '2019-03-16 16:20:04', '2019-03-16 16:20:04');
+INSERT INTO `ucenter_member` VALUES ('1106833021442510849', 'o1R-t5lsGc3I8P5bDpHj7m_AIRvQ', NULL, NULL, '食物链终结者', NULL, NULL, 'http://thirdwx.qlogo.cn/mmopen/vi_32/MQ7qUmCprK9am16M1Ia1Cs3RK0qiarRrl9y8gsssBjIZeS2GwKSrnq7ZYhmrzuzDwBxSMMAofrXeLic9IBlW4M3Q/132', NULL, 0, 0, '2019-03-16 16:22:11', '2019-03-16 16:22:11');
+INSERT INTO `ucenter_member` VALUES ('1191600824445046786', NULL, '15210078344', '96e79218965eb72c92a549dd5a330112', 'IT妖姬', 1, 5, 'http://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoj0hHXhgJNOTSOFsS4uZs8x1ConecaVOB8eIl115xmJZcT4oCicvia7wMEufibKtTLqiaJeanU2Lpg3w/132', NULL, 0, 0, '2019-11-05 14:19:10', '2019-11-08 18:04:43');
+INSERT INTO `ucenter_member` VALUES ('1191616288114163713', NULL, '17866603606', '96e79218965eb72c92a549dd5a330112', 'xiaowu', NULL, NULL, 'http://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoj0hHXhgJNOTSOFsS4uZs8x1ConecaVOB8eIl115xmJZcT4oCicvia7wMEufibKtTLqiaJeanU2Lpg3w/132', NULL, 0, 0, '2019-11-05 15:20:37', '2019-11-05 15:20:37');
+INSERT INTO `ucenter_member` VALUES ('1195187659054329857', NULL, '15010546384', '96e79218965eb72c92a549dd5a330112', 'qy', NULL, NULL, 'http://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoj0hHXhgJNOTSOFsS4uZs8x1ConecaVOB8eIl115xmJZcT4oCicvia7wMEufibKtTLqiaJeanU2Lpg3w/132', NULL, 0, 0, '2019-11-15 11:51:58', '2019-11-15 11:51:58');
+INSERT INTO `ucenter_member` VALUES ('1361623136260431873', 'o3_SC5wpZYmUB2krEAGE21r9TzZs', '', NULL, '天空无暇', NULL, NULL, 'https://thirdwx.qlogo.cn/mmopen/vi_32/iaxA9nbRQqs9bJ5M0fmVtJD7iakR8XaqZqo36UGhS6FAibHibE0icCricEoXTcW4A5PNRCqFsfia8LECXWZHFqsuKHzdw/132', NULL, 0, 0, '2021-02-16 18:27:08', '2021-02-16 18:27:08');
+
+-- ----------------------------
+-- Table structure for user_course
+-- ----------------------------
+DROP TABLE IF EXISTS `user_course`;
+CREATE TABLE `user_course`  (
+  `id` char(19) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'id',
+  `classid` char(19) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '课程id',
+  `userid` char(19) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户id',
+  `is_deleted` tinyint(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
+  `gmt_create` datetime(0) NOT NULL COMMENT '创建时间',
+  `gmt_modified` datetime(0) NOT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of user_course
+-- ----------------------------
+INSERT INTO `user_course` VALUES ('1', '1377149195932188674', '1', 0, '2019-01-01 12:11:33', '2021-04-17 16:30:59');
+INSERT INTO `user_course` VALUES ('1384778303004545025', '1377153864016351234', '1', 0, '2021-04-21 15:57:30', '2021-04-21 15:57:30');
+INSERT INTO `user_course` VALUES ('1384781617851076610', '1377153864016351234', '1', 0, '2021-04-21 16:10:40', '2021-04-21 16:10:40');
+INSERT INTO `user_course` VALUES ('1384782782957395970', '1377149195932188674', '1', 0, '2021-04-21 16:15:18', '2021-04-21 16:15:18');
+INSERT INTO `user_course` VALUES ('1384782808962080769', '1377149195932188674', '1', 0, '2021-04-21 16:15:24', '2021-04-21 16:15:24');
+INSERT INTO `user_course` VALUES ('1384783202903699457', '1377168967696715778', '1', 0, '2021-04-21 16:16:58', '2021-04-21 16:16:58');
+INSERT INTO `user_course` VALUES ('1387731234431467521', '1377157959703941121', '1', 0, '2021-04-29 19:31:24', '2021-04-29 19:31:24');
+INSERT INTO `user_course` VALUES ('1387731251946881026', '1377177712988332034', '1', 0, '2021-04-29 19:31:28', '2021-04-29 19:31:28');
+INSERT INTO `user_course` VALUES ('1392103344905936898', '1377149195932188674', '1080736474267144193', 0, '2021-05-11 21:04:36', '2021-05-11 21:04:36');
+INSERT INTO `user_course` VALUES ('1392103509381373954', '1377153864016351234', '1080736474267144193', 0, '2021-05-11 21:05:15', '2021-05-11 21:05:15');
+INSERT INTO `user_course` VALUES ('1392103520433364993', '1377157959703941121', '1080736474267144193', 0, '2021-05-11 21:05:18', '2021-05-11 21:05:18');
+INSERT INTO `user_course` VALUES ('2', '1377153864016351234', '1', 0, '2019-01-01 12:11:33', '2021-04-17 16:30:59');
+
+-- ----------------------------
+-- Table structure for xpc_attr
+-- ----------------------------
+DROP TABLE IF EXISTS `xpc_attr`;
+CREATE TABLE `xpc_attr`  (
+  `id` char(19) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '可用ip地址id',
+  `ip` char(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'ip地址',
+  `port` int(6) NOT NULL COMMENT '端口号',
+  `is_use` tinyint(1) NOT NULL COMMENT '是否被使用1(true) ,0(false)',
+  `is_deleted` tinyint(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
+  `gmt_create` datetime(0) NOT NULL COMMENT '创建时间',
+  `gmt_modified` datetime(0) NOT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of xpc_attr
+-- ----------------------------
+INSERT INTO `xpc_attr` VALUES ('1', '192.168.7.10', 22222, 1, 0, '2021-04-15 21:50:27', '2021-05-30 19:32:43');
+INSERT INTO `xpc_attr` VALUES ('1389897277589442562', '192.168.7.11', 22222, 0, 0, '2021-05-05 18:58:29', '2021-05-05 18:58:29');
+INSERT INTO `xpc_attr` VALUES ('1389897278000484354', '192.168.7.12', 22222, 0, 0, '2021-05-05 18:58:29', '2021-05-05 18:58:29');
+
+SET FOREIGN_KEY_CHECKS = 1;
